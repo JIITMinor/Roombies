@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.roombies.MainActivity"
+    android:background="#01122d"
+    android:orientation="vertical"
+    android:weightSum="10"
+
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ROOMBIES"
+        android:textSize="50sp"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="cursive"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:layout_marginTop="10sp"/>
+    <LinearLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="300sp"
+        android:orientation="vertical"
+        android:layout_marginTop="60sp"
+        android:background="@drawable/hhh"
+        android:paddingTop="80sp"
+        android:backgroundTint="#FFFFFF">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Email"
+                android:textColor="#22212f"
+                android:ems="10"
+                android:id="@+id/email" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            >
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Password"
+
+                android:ems="10"
+                android:id="@+id/password"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgotten password?"
+            android:textSize="14dp"
+            android:textColor="#22212f"
+            android:background="@android:color/transparent"
+            android:id="@+id/forgotbutton"
+            android:focusable="false"
+            android:layout_gravity="center_horizontal"
+
+            />
+
+
+        <Button
+
+            android:layout_width="215dp"
+            android:layout_height="40dp"
+            android:text="Log In"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_red"
+            style="@style/ButtonText"
+            android:id="@+id/LogIn"
+            />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_result2"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etRegisterRoom"
+            />
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        >
+        <Button
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not a member?Join Now"
+            android:textSize="16dp"
+            android:textColor="#ffffff"
+            android:background="@android:color/transparent"
+            android:id="@+id/SignUpbutton"
+            android:focusable="false"
+
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>

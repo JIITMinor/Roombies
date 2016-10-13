@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@drawable/cream2">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <ImageView
+                android:id="@+id/picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="0dp"
+                android:src="@drawable/house"
+                android:layout_column="0" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add profile photo"
+                android:id="@+id/capture_btn"
+                android:layout_column="1"
+                android:layout_marginTop="50dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Personal Details :"
+
+                android:id="@+id/personal"
+                android:layout_column="0"
+                android:layout_span="2"
+                android:textSize="24dp"
+                android:textColor="#d12121" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="  Name :"
+                android:textColor="#2d3ac6"
+                android:textSize="18dp" />
+            <EditText android:id="@+id/etName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:id="@+id/age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="  Age :"
+                android:textColor="#FF2D3AC6"
+                android:textSize="18dp" />
+
+            <EditText android:id="@+id/etAge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:id="@+id/gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="  Gender :"
+                android:textColor="#FF2D3AC6"
+                android:textSize="18dp" />
+            <EditText android:id="@+id/etGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:id="@+id/profession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="  Professsion :"
+                android:textColor="#FF2D3AC6"
+                android:textSize="18dp" />
+            <EditText android:id="@+id/etProfession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="  Phone :"
+                android:textColor="#FF2D3AC6"
+                android:textSize="18dp" />
+            <EditText android:id="@+id/etPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="  Email :"
+                android:textColor="#2d3ac6"
+                android:textSize="18dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/etEmail"
+                android:layout_column="1" />
+        </TableRow>
+
+
+        <TableRow>
+            <TextView android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="  Address :"
+                android:textColor="#FF2D3AC6"
+                android:textSize="18dp" />
+            <EditText android:id="@+id/etAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="   City :"
+                android:textColor="#2d3ac6"
+                android:textSize="18dp" />
+            <EditText android:id="@+id/etCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Roomate Prefrence :"
+                android:id="@+id/textView"
+                android:layout_column="0"
+                android:layout_span="2"
+                android:textSize="24dp"
+                android:textColor="#d12121" />
+        </TableRow>
+
+
+        <TableRow>
+            <TextView
+                android:id="@+id/roomsize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="Gender:"
+                android:textColor="#2d3ac6"
+                android:textSize="18dp" />
+            <EditText android:id="@+id/etGenderRoomMate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:id="@+id/sharing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="Age:"
+                android:textColor="#FF2D3AC6"
+                android:textSize="18dp" />
+
+            <EditText android:id="@+id/etAgeRoomMate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/washroom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="Nationality:"
+                android:textColor="#2d3ac6"
+                android:textSize="18dp" />
+            <EditText android:id="@+id/etNationality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/kitchen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="Profession:"
+                android:textColor="#2d3ac6"
+                android:textSize="18dp" />
+            <EditText android:id="@+id/etProfessionRoomMate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/rent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="Working hours:"
+                android:textColor="#2d3ac6"
+                android:textSize="18dp" />
+            <EditText android:id="@+id/etWorkingHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                />
+        </TableRow>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <TextView android:id="@+id/extra"
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+                android:padding="3dip"
+                android:text="Extra Facilities "
+                android:textAlignment="center"
+                android:textColor="#d12121"
+                android:textSize="24dp"
+                />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal">
+
+                    <TextView android:id="@+id/electricity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dip"
+                        android:text="Pets allowed:"
+                        android:textColor="#FF2D3AC6"
+                        android:textSize="18dp"
+                        android:layout_weight=".34"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        android:id="@+id/etPetsAllowedYes"
+                        android:layout_weight="0.73"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        android:id="@+id/etPetsAllowedNo"
+                        android:layout_weight="0.74"
+                        android:checked="false" />
+
+                </LinearLayout>
+
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal">
+
+                    <TextView android:id="@+id/water"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dip"
+                        android:text="alcoholic:"
+                        android:textColor="#FF2D3AC6"
+                        android:textSize="18dp"
+                        android:layout_weight=".84"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        android:id="@+id/etAlcoholicYes"
+                        android:layout_weight="0.70"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        android:id="@+id/etAlcoholicNo"
+                        android:layout_weight="1"
+                        android:checked="false" />
+
+                </LinearLayout>
+
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal">
+
+                    <TextView android:id="@+id/ac"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dip"
+                        android:text="Visitors allowed:"
+                        android:textColor="#FF2D3AC6"
+                        android:textSize="18dp" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        android:id="@+id/etVisitorsAllowedYes"
+                        android:layout_weight="7.64"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        android:id="@+id/etVisitorsAllowedNo"
+                        android:layout_weight="11.94"
+                        android:checked="false" />
+
+                </LinearLayout>
+
+            </TableRow>
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update Details"
+                android:id="@+id/etUpdateDetailsRoomMate"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/tv_result"
+                android:layout_gravity="right" />
+
+
+        </LinearLayout>
+
+    </TableLayout>
+
+
+
+
+
+</ScrollView>
