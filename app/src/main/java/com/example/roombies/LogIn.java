@@ -1,15 +1,20 @@
 package com.example.roombies;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,14 +22,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LogIn extends AppCompatActivity {
-    TextView mResult;
-    public Button b;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+public class LogIn extends AppCompatActivity implements AsyncResponse{
+    TextView mResult,etotp;
+    public Button b,forget;
     TextView roombutton;
     EditText useremail;
+    int Min=1000;
+    int Max=9999;
+    int otp=Min + (int)(Math.random() * ((Max - Min) + 1));
     public String md5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -42,8 +55,13 @@ public class LogIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        useremail = (EditText) findViewById(R.id.email);
+        if( getIntent().getBooleanExtra("Exit me", false)){
+            finish();
+            return; // add this to prevent from doing unnecessary stuffs
+        }
 
-        b=(Button)findViewById(R.id.SignUpbutton);
+
         roombutton=(TextView) findViewById(R.id.etRegisterRoom);
         roombutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,17 +70,34 @@ public class LogIn extends AppCompatActivity {
                 startActivity(RoomButtonIntent);
             }
         });
-        b.setOnClickListener(new View.OnClickListener() {
-@Override
-    public void onClick(View view) {
-        Intent i=new Intent(LogIn.this,MainActivity.class);
-        startActivity(i);
-    }
+        forget=(Button)findViewById(R.id.forgotbutton) ;
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateEmail(useremail.getText().toString())) {
+                    useremail.setError("Invalid Email");
+                    useremail.requestFocus();
+
+                }
+                 else{
+                String mailData = useremail.getText().toString().trim();
+                String subject = "Roombies Password reset";
+                String message = "Looks like you'd like to change your Roombies password.\n" + " Please enter the otp: "
+                        + otp + " to do so.\n" + "Please disregard this e-mail if you did not request a password reset.\n" +
+                        "Cheers,\n" +
+                        "The Roombies Team";
+
+                Mail sm = new Mail(LogIn.this, mailData, subject, message, LogIn.this);
+                //sm.del = LogIn.this;
+                sm.execute();
+            }
+               // Intent it=new Intent(LogIn.this,Forgetpassword.class);
+                //startActivity(it);
+            }
+        });
 
 
-});
 
-        useremail = (EditText) findViewById(R.id.email);
         final EditText userpassword = (EditText) findViewById(R.id.password);
         final Button login = (Button) findViewById(R.id.LogIn);
         mResult=(TextView) findViewById(R.id.tv_result2);
@@ -85,7 +120,11 @@ public class LogIn extends AppCompatActivity {
                         final String password_encrypted_to_check=md5(password_to_check);
                         Log.d("encrypted password",password_encrypted_to_check);
                         Log.d("email to check",email_to_check);
-                        new GetDataTask().execute("http://192.168.43.75:5000/login?email="+email_to_check+"&password="+password_encrypted_to_check);
+                        SharedPreferences.Editor editor = getSharedPreferences("MY_PREF",MODE_PRIVATE).edit();
+                        editor.putString("email",email_to_check);
+                        editor.commit();
+
+                        new GetDataTask().execute("http://192.168.43.227:5000/login?email="+email_to_check+"&password="+password_encrypted_to_check);
                     }
 
                 }
@@ -136,8 +175,14 @@ public class LogIn extends AppCompatActivity {
            if(result.contains("true")){
                //Log.d("Successfully login !! ",result);
                mResult.setText("Login ho gya :"+result);
-               Intent i=new Intent(getApplicationContext(),Find.class);
+               SharedPreferences sp=getApplicationContext().getSharedPreferences("Login",0);
+               SharedPreferences.Editor spe=sp.edit();
+               final String email_to_check=useremail.getText().toString();
+               spe.putString("Email",email_to_check);
+               Intent i=new Intent(getApplicationContext(),captcha.class);
+               i.putExtra("email",useremail.getText().toString());
                startActivity(i);
+               finish();
            }
             else
            {
@@ -185,5 +230,138 @@ public class LogIn extends AppCompatActivity {
             return result.toString();
         }
     }
+    @Override
+    public void inputotp() {
+
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(LogIn.this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialogbox, null);
+        dialog.setView(dialogView);
+        dialog.show();
+        etotp=(EditText) dialogView.findViewById(R.id.etotp);
+        final String email1=useremail.getText().toString();
+        System.out.println("email is:"+useremail);
+        /*final String password1=password.getText().toString();
+        final String password2=md5(password1);
+
+        Button submitOtp = (Button) dialogView.findViewById(R.id.submitotp);
+        Button cancelOtp = (Button) dialogView.findViewById(R.id.cancelotp);
+        submitOtp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String enterotp=(etotp.getText().toString());
+
+                //Toast.makeText(MainActivity.this, "otp is:"+enterotp, Toast.LENGTH_LONG).show();
+                new GetOtpVerify().execute("http://192.168.43.228:5000/verifyotp?email="+email1+"&password="+password2+"&otp="+enterotp);
+                //startActivity(new Intent(MainActivity.this,SignUp.class));
+            }
+        });
+        cancelOtp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"You Have Entered Incorrect Otp", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(MainActivity.this,MainActivity.class));
+            }
+        });*/
+    }
 
 }
+class Mail extends AsyncTask<Void,Void,Void> {
+    public AsyncResponse del=null;
+    //Declaring Variables
+    private Context context;
+    private Session session;
+
+    //Information to send email
+    private String email;
+    private String subject;
+    private String message;
+
+    //Progressdialog to show while sending email
+    private ProgressDialog progressDialog;
+
+    //Class Constructor
+    public Mail(Context context, String email, String subject, String message,AsyncResponse asyncResponse){
+        //Initializing variables
+        this.context = context;
+        this.email = email;
+        this.subject = subject;
+        this.message = message;
+        this.del = asyncResponse;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        //Showing progress dialog while sending email
+        progressDialog = ProgressDialog.show(context,"Sending Confirmation","Please wait...",false,false);
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        //Dismissing the progress dialog
+        progressDialog.dismiss();
+        del.inputotp();
+        //Toast.makeText(LogIn.this, "Wrong Captcha Entered.", Toast.LENGTH_LONG).show();
+        //Showing a success messagetreu
+
+    }
+
+    @Override
+    protected Void doInBackground(Void... params) {
+        //Creating properties
+        Properties props = new Properties();
+
+        //Configuring properties for gmail
+        //If you are not using gmail you may need to change the values
+        /*props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");*/
+
+        props.setProperty("mail.smtp.host", "smtp.gmail.com");
+        props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.setProperty("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.port", "465");
+        props.setProperty("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.debug", "true");
+        props.put("mail.store.protocol", "pop3");
+        props.put("mail.transport.protocol", "smtp");
+
+        //Creating a new session
+        session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                    //Authenticating the password
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(config.EMAIL,config.PASSWORD);
+                    }
+                });
+
+        try {
+            //Creating MimeMessage object
+            MimeMessage mm = new MimeMessage(session);
+
+            //Setting sender address
+            mm.setFrom(new InternetAddress(config.EMAIL));
+            //Adding receiver
+            mm.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(email));
+            //Adding subject
+            mm.setSubject(subject);
+            //Adding message
+            mm.setText(message);
+
+            //Sending email
+            Transport.send(mm);
+
+        } catch (Exception e) {
+            Log.d("catched",""+e);
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
+
+

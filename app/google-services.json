@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "97552675499",
+    "firebase_url": "https://roombies-870d5.firebaseio.com",
+    "project_id": "roombies-870d5",
+    "storage_bucket": "roombies-870d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97552675499:android:c8914a273c93873b",
+        "android_client_info": {
+          "package_name": "com.example.roombies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97552675499-fh5nkgsmf5e6kjodu31e384gotnt7lbr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.roombies",
+            "certificate_hash": "3D82B89899CF47EB4A7EF477A0261EC03B104985"
+          }
+        },
+        {
+          "client_id": "97552675499-l05p4behi48jgvdjbtr84p9kes1ebvvj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwXSlqMkQn2X3T5n8hQqNCn24ZwugqfMM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97552675499-l05p4behi48jgvdjbtr84p9kes1ebvvj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

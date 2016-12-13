@@ -41,7 +41,7 @@ public class ProfileF extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        new getRoomDetails().execute("http://192.168.43.75:5000/getRoomDetails");
+        new getRoomDetails().execute("http://192.168.43.227:5000/getRoomDetails");
         return inflater.inflate(R.layout.profile_f, container, false);
 
     }

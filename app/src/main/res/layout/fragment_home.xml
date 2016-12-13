@@ -1,0 +1,58 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.roombies.home"
+    >
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#01122d">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:srcCompat="@drawable/rr"
+            android:background="#01122d"
+            android:id="@+id/imageButton1"
+            android:onClick="onClick"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:text="Room Specific "
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#01122d"
+            android:textAlignment="center"
+            android:textSize="36dp"
+            android:textColor="#ffffff"
+            android:textStyle="italic"
+            android:id="@+id/textView3"
+            android:layout_marginTop="5dp" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:srcCompat="@drawable/rrr2"
+            android:background="#01122d"
+            android:id="@+id/imageButton2" />
+
+        <TextView
+            android:text="Roommate Specific "
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#01122d"
+            android:textAlignment="center"
+            android:textSize="36dp"
+            android:textColor="#ffffff"
+            android:textStyle="italic"
+
+            android:id="@+id/textView4" />
+
+    </LinearLayout>
+
+</FrameLayout>

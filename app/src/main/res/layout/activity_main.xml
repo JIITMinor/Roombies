@@ -97,4 +97,23 @@
         android:id="@+id/tv_result1"
          />
 </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        >
+        <Button
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already a member? LogIn Now"
+            android:textSize="16dp"
+            android:textColor="#ffffff"
+            android:background="@android:color/transparent"
+            android:id="@+id/Loginbutton"
+            android:focusable="false"
+
+            />
+    </RelativeLayout>
     </LinearLayout>

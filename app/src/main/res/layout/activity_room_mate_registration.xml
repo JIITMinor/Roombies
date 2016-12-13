@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     android:background="@drawable/cream2">
 
@@ -12,24 +13,61 @@
 
         <TableRow>
 
-            <ImageView
-                android:id="@+id/picture"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginRight="0dp"
-                android:src="@drawable/house"
-                android:layout_column="0" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add profile photo"
-                android:id="@+id/capture_btn"
-                android:layout_column="1"
-                android:layout_marginTop="50dp" />
+                <ImageView
+                    android:id="@+id/picture"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/house"
+                    android:layout_column="0" />
+
+                <com.facebook.login.widget.ProfilePictureView
+                    android:id="@+id/image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:id="@+id/filterButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/picture"
+                    android:layout_alignRight="@+id/picture"
+                    android:layout_alignBottom="@+id/picture"
+                    android:gravity="bottom"
+                    android:text="add filters to your image"
+                    android:textColor="#ffffff"
+                    android:layout_marginTop="70dp"
+                    android:background="#8b000000" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1">
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="take profile photo"
+                    android:id="@+id/capture_btn"
+                    android:layout_column="1" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="upload profile photo"
+                    android:id="@+id/upload_btn" />
+            </LinearLayout>
+
         </TableRow>
 
         <TableRow
@@ -261,11 +299,14 @@
                 android:text="Working hours:"
                 android:textColor="#2d3ac6"
                 android:textSize="18dp" />
-            <EditText android:id="@+id/etWorkingHours"
+
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                />
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/etWorkingHours"
+                android:layout_column="1" />
         </TableRow>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

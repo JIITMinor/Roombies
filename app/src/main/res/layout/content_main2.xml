@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_main2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.roombies.Main2Activity"
+    tools:showIn="@layout/app_bar_main2"
+    android:background="#01122d">
+
+    <com.flavienlaurent.discrollview.lib.DiscrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:discrollve="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.flavienlaurent.discrollview.lib.DiscrollViewContent
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:background="#4FC0EE"
+                android:textColor="#F04105"
+                android:padding="25dp"
+                android:textSize="54sp"
+                android:gravity="center"
+                android:fontFamily="serif"
+                android:text="In search for Room or Roommate??" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#F7F017"
+                discrollve:discrollve_alpha="true"
+                discrollve:discrollve_threshold="0.3" />
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="120dp"
+                discrollve:discrollve_alpha="true"
+                discrollve:discrollve_translation="fromLeft|fromBottom"
+                android:src="@drawable/bbb" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                discrollve:discrollve_fromBgColor="#88EE66"
+                discrollve:discrollve_toBgColor="#01122d" />
+
+            <ImageView
+                android:layout_width="220dp"
+                android:layout_height="110dp"
+                android:layout_gravity="right"
+                android:src="@drawable/bbb"
+                discrollve:discrollve_translation="fromRight" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:fontFamily="serif"
+                android:gravity="center"
+                android:text="Find and match yourself with roommates going to your college or university of choice!.Roombies is the world's first and best roommate matching Application."
+                android:textSize="18sp"
+                discrollve:discrollve_alpha="true"
+                discrollve:discrollve_translation="fromBottom"
+                android:textColor="#ffffff"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/bbb"
+                discrollve:discrollve_scaleX="true"
+                discrollve:discrollve_scaleY="true"  />
+
+        </com.flavienlaurent.discrollview.lib.DiscrollViewContent>
+    </com.flavienlaurent.discrollview.lib.DiscrollView>
+
+
+
+</RelativeLayout>

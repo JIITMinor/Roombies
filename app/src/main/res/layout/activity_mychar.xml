@@ -1,0 +1,144 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#01122d"
+    tools:context="com.example.roombies.mychar">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingLeft="20dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:text="Nature"
+                android:textColor="#FFF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView13" />
+
+            <CheckBox
+                android:buttonTint="#FFF"
+                android:textColor="#FFF"
+                android:text="Introvert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/natureyes" />
+
+            <CheckBox
+                android:buttonTint="#FFF"
+                android:textColor="#FFF"
+                android:text="Extrovert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/natureno" />
+
+            <TextView
+                android:textColor="#FFF"
+                android:text="Sleeping Habbits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView8" />
+
+            <CheckBox
+                android:buttonTint="#FFF"
+                android:textColor="#FFF"
+                android:text="Early Bird"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sleepyes" />
+
+            <CheckBox
+                android:buttonTint="#FFF"
+                android:textColor="#FFF"
+                android:text="Late night"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sleepno"/>
+
+            <TextView
+                android:textColor="#FFF"
+                android:text="Eating Habbits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView9" />
+
+            <CheckBox
+                android:buttonTint="#FFF"
+                android:textColor="#FFF"
+                android:text="Veg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/eatingyes" />
+
+            <CheckBox
+                android:buttonTint="#FFF"
+                android:textColor="#FFF"
+                android:text="Non Veg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/eatingno" />
+
+            <TextView
+                android:textColor="#FFF"
+                android:text="Alcohol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView10" />
+
+            <CheckBox
+                android:buttonTint="#FFF"
+                android:text="Yes"
+                android:textColor="#FFF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/alcoholyes" />
+
+            <CheckBox
+                android:buttonTint="#FFF"
+                android:textColor="#FFF"
+                android:text="No"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/alcoholno" />
+
+            <TextView
+                android:textColor="#FFF"
+                android:text="Smoking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView11" />
+
+            <CheckBox
+                android:buttonTint="#FFF"
+                android:textColor="#FFF"
+                android:text="Yes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/smokeyes" />
+
+            <CheckBox
+                android:buttonTint="#FFF"
+                android:text="No"
+                android:textColor="#FFF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/smokeno" />
+
+            <Button
+                android:background="@drawable/btn_red"
+                style="@style/ButtonText"
+                android:text="Search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Search" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

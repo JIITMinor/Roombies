@@ -22,7 +22,7 @@
         android:inputType="number"
         android:layout_marginTop="10sp"
         android:ems="10"
-        android:id="@+id/otp"
+        android:id="@+id/etotp"
         android:layout_gravity="center_horizontal"
         android:hint="Enter otp"/>
     </android.support.design.widget.TextInputLayout>

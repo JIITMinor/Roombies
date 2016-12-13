@@ -11,6 +11,10 @@
             android:icon="@drawable/ic_menu_home"
             android:title="Home" />
         <item
+            android:id="@+id/nav_myownchar"
+            android:icon="@drawable/ic_menu_home"
+            android:title="My characteristics" />
+        <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_menu_search"
             android:title="Search" />

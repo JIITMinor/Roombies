@@ -3,6 +3,8 @@ package com.example.roombies;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaCodec;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -64,6 +67,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,7 +75,9 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity implements AsyncResponse {
     TextView mResult;
     EditText email,password;
-    Button signup;
+    Button signup,b;
+    int Min=1000;
+    int Max=9999;
     //editTextEmail = (EditText) findViewById(R.id.email);
 
     /**
@@ -81,10 +87,10 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     // private EditText editTextEmail=(EditText) findViewById(R.id.email);
     private GoogleApiClient client;
     //EditText email;
-    private TextView info;
+    private TextView info,etotp;
     private LoginButton loginButton;
     private CallbackManager callbackManager;
-
+    int otp=Min + (int)(Math.random() * ((Max - Min) + 1));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +100,24 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         callbackManager = CallbackManager.Factory.create();
 
 
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        // App code
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
+                });
+
         setContentView(R.layout.activity_main);
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
@@ -101,7 +125,27 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         mResult=(TextView) findViewById(R.id.tv_result1);
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
+            b=(Button)findViewById(R.id.Loginbutton);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(MainActivity.this,LogIn.class);
+                startActivity(i);
+            //    finish();
+            }
 
+        });
+        SharedPreferences sp=getApplicationContext().getSharedPreferences("Login",0);
+        int value=sp.getInt("Login",0);
+
+
+        if(value==1)
+        {
+            Intent i=new Intent(MainActivity.this,Main2Activity.class);
+            startActivity(i);
+        //    finish();
+
+        }
         final int flag=0;
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +160,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                     password.requestFocus();
 
                 } else {
-                    new postDataTask().execute("http://192.168.43.75:5000/register");
+                    //192.168.43.75
+                    //new sendNotification().execute("http://192.168.43.228:5000/notify");
+                    new postDataTask().execute("http://192.168.43.227:5000/register");
                     //new postDataTask().execute("http://192.168.0.104:1000/api/status");
 
                 }
@@ -125,65 +171,62 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         });
 
 
-        loginButton.setReadPermissions(Arrays.asList("public_profile", "user_friends", "email", "user_birthday"));
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "user_friends", "email", "user_birthday","user_location","user_hometown","user_photos"));
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 
             @Override
-            public void onSuccess(LoginResult loginResult) {
-                Intent i=new Intent(MainActivity.this,MainActivity.class);
-                startActivity(i);
-                mResult.setText(loginResult.getAccessToken().getToken());
+            public void onSuccess(final LoginResult loginResult) {
+                Toast.makeText(getApplicationContext(),loginResult.getAccessToken().getToken(),Toast.LENGTH_SHORT).show();
 
                 GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-
+                        Intent intent=new Intent(getApplicationContext(),SignUp.class);
                         try {
-                            mResult.setText(object.toString());
-                            email.setText(object.getString("email").toString());
-                        } catch (JSONException e) {
-                            return;
+                            Log.d("values",object.toString());
+                            intent.putExtra("email",object.getString("email"));
+                            intent.putExtra("name",object.getString("name"));
+                            intent.putExtra("gender",object.getString("gender"));
+                            intent.putExtra("id",object.getString("id"));
+
+                            JSONObject location=object.getJSONObject("location");
+                            JSONObject location2=location.getJSONObject("location");
+
+                            intent.putExtra("city",location2.getString("city"));
+                            intent.putExtra("street",location2.getString("street"));
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+                        startActivity(intent);
                     }
                 });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,link,gender,birthday,email");
+                parameters.putString("fields", "id,name,link,gender,birthday,email,picture,location{location},verified");
                 request.setParameters(parameters);
                 request.executeAsync();
 
-                startActivity(i);
             }
 
             @Override
             public void onCancel() {
-                // App code
-                Intent i=new Intent(MainActivity.this,MainActivity.class);
-                startActivity(i);
-                mResult.setText("Login attempt canceled.");
+                Toast.makeText(MainActivity.this,"Login attempt canceled.",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
-                Intent i=new Intent(MainActivity.this,MainActivity.class);
-                startActivity(i);
-                mResult.setText("Login attempt failed.");
+
+                Toast.makeText(MainActivity.this,"Login attempt failed.",Toast.LENGTH_SHORT).show();
             }
         });
-
-
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
     @Override
     protected void onActivityResult ( int requestCode, int resultCode, Intent data){
-        Intent i=new Intent(MainActivity.this,MainActivity.class);
-        startActivity(i);
         callbackManager.onActivityResult(requestCode, resultCode, data);
-
-        startActivity(i);
     }
 
     private boolean validatePassword(String password) {
@@ -274,17 +317,27 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         final View dialogView = inflater.inflate(R.layout.dialogbox, null);
         dialog.setView(dialogView);
         dialog.show();
+        etotp=(EditText) dialogView.findViewById(R.id.etotp);
+        final String email1=email.getText().toString();
+        final String password1=password.getText().toString();
+        final String password2=md5(password1);
+
         Button submitOtp = (Button) dialogView.findViewById(R.id.submitotp);
         Button cancelOtp = (Button) dialogView.findViewById(R.id.cancelotp);
         submitOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,SignUp.class));
+                final String enterotp=(etotp.getText().toString());
+
+                //Toast.makeText(MainActivity.this, "otp is:"+enterotp, Toast.LENGTH_LONG).show();
+                new GetOtpVerify().execute("http://192.168.43.227:5000/verifyotp?email="+email1+"&password="+password2+"&otp="+enterotp);
+                //startActivity(new Intent(MainActivity.this,SignUp.class));
             }
         });
         cancelOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"You Have Entered Incorrect Otp", Toast.LENGTH_LONG).show();
               startActivity(new Intent(MainActivity.this,MainActivity.class));
             }
         });
@@ -310,6 +363,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         final String email1=email.getText().toString();
         final String password2=password.getText().toString();
         final String password1=md5(password2);
+        final String otpdb=Integer.toString(otp);
         //final int age=Integer.parseInt(etAge.getText().toString());
         @Override
         protected void onPreExecute() {
@@ -346,13 +400,12 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 startActivity(mainintent);
                 mResult.setText("Register ho gya :"+result);
                 //alert_call(result);*/
-                int Min=1000;
-                int Max=9999;
-                int x=Min + (int)(Math.random() * ((Max - Min) + 1));
+
+
                 String mailData = email.getText().toString().trim();
                 String subject = "Sign Up Verification from Roombies";
                 String message = "Thank you for registering in Roombies we will notifiy you as soon as we find a match as per your requirements\n" +
-                        "Stay Connected. Happy living\nYour one time password is "+x+" verify it to continue.";
+                        "Stay Connected. Happy living\nYour one time password is "+otp+" verify it to continue.";
 
                 SendMail sm = new SendMail(MainActivity.this, mailData, subject, message,MainActivity.this);
                 sm.del = MainActivity.this;
@@ -382,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 JSONObject dataToSend=new JSONObject();
                 dataToSend.put("email",email1);
                 dataToSend.put("password",password1);
-
+                dataToSend.put("otp",otpdb);
                 //building connection to the server
                 URL url=new URL(urlPath);
                 HttpURLConnection urlConnection=(HttpURLConnection) url.openConnection();
@@ -415,6 +468,179 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 if(bufferedWriter!=null)
                     bufferedWriter.close();
                 Log.d("in finally",result.toString());
+            }
+            return result.toString();
+        }
+    }
+    class sendNotification extends AsyncTask<String,Void,String> {
+        ProgressDialog progressDialog;
+        final String message = "hello";
+        final String deviceid = FirebaseInstanceId.getInstance().getToken();
+
+
+        //final int age=Integer.parseInt(etAge.getText().toString());
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog=new ProgressDialog(MainActivity.this);
+            progressDialog.setMessage("Please Wait...");
+            progressDialog.show();
+            //progressDialog.dismiss();
+        }
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                return notify(params[0]);
+            } catch (IOException ex) {
+                return "Network Error!!";
+            } catch (JSONException ex) {
+                return "Data Invalid !";
+            }
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            //mResult.setText(result);
+            if(progressDialog.isShowing())
+            {
+                progressDialog.dismiss();
+            }
+            if(result.contains("true"))
+            {
+               /* Log.d("key",result);
+                Toast.makeText(getApplicationContext(),"Success", Toast.LENGTH_LONG).show();
+                Intent mainintent=new Intent(MainActivity.this,SignUp.class);
+                startActivity(mainintent);
+                mResult.setText("Register ho gya :"+result);
+                //alert_call(result);*/
+
+
+
+            }
+            else
+            {
+
+                mResult.setText("Register nhi hua : "+result);
+                Toast.makeText(getApplicationContext(),"Try Again", Toast.LENGTH_LONG).show();
+                Intent mainintentback=new Intent(MainActivity.this,MainActivity.class);
+                startActivity(mainintentback);
+
+
+            }
+            //if(progressDialog!=null)
+            // progressDialog.dismiss();
+            //alert_call(result);
+        }
+
+        private String notify(String urlPath) throws IOException,JSONException{
+            StringBuilder result =new StringBuilder();
+            BufferedWriter bufferedWriter=null;
+            BufferedReader bufferedReader=null;
+            StringBuilder builder;
+            try{
+                JSONObject dataToSend=new JSONObject();
+                dataToSend.put("message",message);
+                Log.d("Failed login !! ",deviceid);
+                dataToSend.put("deviceid",deviceid);
+                //building connection to the server
+                URL url=new URL(urlPath);
+                HttpURLConnection urlConnection=(HttpURLConnection) url.openConnection();
+                urlConnection.setReadTimeout(10000);
+                urlConnection.setConnectTimeout(10000);
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setDoInput(true);
+                urlConnection.setRequestProperty("Content-Type","application/json");
+                urlConnection.connect();
+
+                //Writing data to server
+                OutputStream outputStream=urlConnection.getOutputStream();
+                bufferedWriter=new BufferedWriter(new OutputStreamWriter(outputStream));
+                bufferedWriter.write(dataToSend.toString());
+                bufferedWriter.flush();
+
+                //read data response from server
+                InputStream inputStream=urlConnection.getInputStream();
+                bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while((line=bufferedReader.readLine())!=null){
+                    result.append(line).append("\n");
+                }
+                builder = new StringBuilder();
+                builder.append(urlConnection.getResponseCode());
+                Log.d("not in finally",result.toString());
+            }finally {
+                if(bufferedReader!=null)
+                    bufferedReader.close();
+                if(bufferedWriter!=null)
+                    bufferedWriter.close();
+                Log.d("in finally",result.toString());
+            }
+            return result.toString();
+        }
+    }
+    class GetOtpVerify extends AsyncTask<String,Void,String>{
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog=new ProgressDialog(MainActivity.this);
+            progressDialog.setMessage("Please Wait While We Verify You!!");
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try{
+                return OtpVerify(params[0]);
+            }catch(IOException ex){
+                return "Network Error!!";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if(result.contains("true"))
+            {
+                new sendNotification().execute("http://192.168.43.227:5000/notify");
+
+                Intent otpVerify=new Intent(MainActivity.this,SignUp.class);
+                startActivity(otpVerify);
+         //       finish();
+            }
+            else{
+                Intent otpverifyWrong=new Intent(MainActivity.this,MainActivity.class);
+                startActivity(otpverifyWrong);
+            }
+            if(progressDialog!=null)
+                progressDialog.dismiss();
+        }
+        private String OtpVerify(String urlPath) throws IOException{
+            StringBuilder result=new StringBuilder();
+            BufferedReader bufferedReader=null;
+            StringBuilder builder;
+            try{
+                URL url=new URL(urlPath);
+                HttpURLConnection urlConnection=(HttpURLConnection) url.openConnection();
+                urlConnection.setReadTimeout(10000);
+                urlConnection.setConnectTimeout(10000);
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setRequestProperty("Content-Type","application/json");
+                urlConnection.connect();
+                InputStream inputStream=urlConnection.getInputStream();
+                bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while((line=bufferedReader.readLine())!=null)
+                {
+                    result.append(line).append("\n");
+                }
+                builder=new StringBuilder();
+                builder.append(urlConnection.getResponseCode());
+            }finally{
+                if(bufferedReader!=null)
+                    bufferedReader.close();
             }
             return result.toString();
         }

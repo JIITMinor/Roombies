@@ -2,35 +2,37 @@ package com.example.roombies;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class CustomAdapter extends ArrayAdapter<String>{
+public class CustomAdapter extends BaseAdapter {
     ArrayList<String> name;
     ArrayList<String> place;
     ArrayList<String> city;
-    int img[]={};
-    int dp[]={};
+    ArrayList<Bitmap> img;
+    ArrayList<Bitmap> dp;
     ArrayList<Integer> price;
+    LayoutInflater inflater;
+    public ArrayList<PersonDetails> personDetailsList=new ArrayList<PersonDetails>();
+    public ArrayList<PersonDetails> arraylist=new ArrayList<PersonDetails>();
     Context c;
 
-    public CustomAdapter(Context context,ArrayList<String> name,ArrayList<String> place,ArrayList<String> city,ArrayList<Integer> price,int img[],int dp[])
+  public CustomAdapter(Context context,ArrayList<PersonDetails> personDetailsList)
     {
-        super(context,R.layout.custom_adapter,name);
-
-        this.name=name;
-        this.place=place;
-        this.city=city;
-        this.img=img;
-        this.dp=dp;
-        this.price=price;
+        this.personDetailsList=personDetailsList;
         this.c=context;
+        this.inflater = LayoutInflater.from(c);
+        this.arraylist.addAll(personDetailsList);
     }
 
     public class ViewHolder{
@@ -43,29 +45,85 @@ public class CustomAdapter extends ArrayAdapter<String>{
     }
 
     @Override
+    public Object getItem(int position) {
+        return personDetailsList.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return personDetailsList.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(convertView==null){
-            LayoutInflater inflater=(LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView=inflater.inflate(R.layout.custom_adapter,null);
+        ViewHolder holder;
+
+        if (convertView == null) {
+            holder = new ViewHolder();
+            convertView = inflater.inflate(R.layout.custom_adapter, null);
+            // Locate the TextViews in listview_item.xml
+
+            holder.name=(TextView)convertView.findViewById(R.id.name);
+            holder.place=(TextView) convertView.findViewById(R.id.place);
+            holder.description=(TextView) convertView.findViewById(R.id.description);
+            holder.img=(ImageView)convertView.findViewById(R.id.imageView2);
+            holder.dp=(ImageView)convertView.findViewById(R.id.profile_photo);
+            holder.price=(TextView)convertView.findViewById(R.id.price);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-
-        final ViewHolder holder =new ViewHolder();
-
-        holder.name=(TextView)convertView.findViewById(R.id.name);
-        holder.place=(TextView) convertView.findViewById(R.id.place);
-        holder.description=(TextView) convertView.findViewById(R.id.description);
-        holder.img=(ImageView)convertView.findViewById(R.id.imageView2);
-        holder.dp=(ImageView)convertView.findViewById(R.id.profile_photo);
-        holder.price=(TextView)convertView.findViewById(R.id.price);
-
-        holder.img.setImageResource(img[position]);
-        holder.name.setText(name.get(position));
-        holder.place.setText(place.get(position));
-        holder.description.setText(city.get(position));
-        holder.dp.setImageResource(dp[position]);
-        holder.price.setText("INR "+price.get(position).toString());
+        holder.img.setImageBitmap(personDetailsList.get(position).getImg());
+        holder.name.setText(personDetailsList.get(position).getName());
+        holder.place.setText(personDetailsList.get(position).getPlace());
+        holder.description.setText(personDetailsList.get(position).getCity());
+        holder.dp.setImageBitmap(personDetailsList.get(position).getDp());
+        holder.price.setText("INR "+personDetailsList.get(position).getPrice().toString());
 
         return convertView;
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        personDetailsList.clear();
+        if (charText.length() == 0) {
+            personDetailsList.addAll(arraylist);
+        }
+        else
+        {
+            for (PersonDetails pd : arraylist)
+            {
+                if (pd.getCity().toLowerCase(Locale.getDefault()).contains(charText))
+                {
+                    personDetailsList.add(pd);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+    public ArrayList<PersonDetails> loc(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        personDetailsList.clear();
+        if (charText.length() == 0) {
+            personDetailsList.addAll(arraylist);
+        }
+        else
+        {
+            for (PersonDetails pd : arraylist)
+            {
+                if (pd.getCity().toLowerCase(Locale.getDefault()).contains(charText))
+                {
+                    personDetailsList.add(pd);
+                }
+            }
+        }
+        return personDetailsList;
     }
 }
