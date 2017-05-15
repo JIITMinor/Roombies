@@ -9,7 +9,7 @@ var methods = require('./Methods');
 app.use(bodyParser.urlencoded({limit: '50mb',extended : true}));
 app.use(bodyParser.json({limit: '50mb'}));
 
-var url = 'mongodb://team_minor:team_minor123@ds033337.mongolab.com:33337/team_minor_user'
+var url = 'mongodb://yoururl'
 
 
 
@@ -228,22 +228,6 @@ app.get('/sortByRentDesc', function ( req, res) {
 	});
 	
 });
-
-/*app.get('/findMates', function ( req, res) {
-
-	console.log("in findMates function!!");
-	var data = JSON.stringify(req.body);
-	console.log("Data:   ",data);
-	var details = req.body
-	MongoClient.connect(url, function(err, db) {
-	  assert.equal(null, err);
-	  console.log("Connected correctly to server.");
-	  methods.getProfiles(db,details,res,function(){});
-	  db.close();
-	});
-	
-});*/
-
 
 app.get('/findMates', function ( req, res) {
 	console.log("in findMates!!!");
